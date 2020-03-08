@@ -10,7 +10,7 @@ In this tutorial we will **add a static enemy** to our platformer template.
 If you want to understand more about how the starting code of the template works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
  to create the game step by step.
 
-If you want to add other features later you can find other game element to add on the home page of this Platformer Making Course.
+This tutorial is one of many allowing you add different Game Element on the home page of this Platformer Making Course.
 
 ```template
 namespace SpriteKind {
