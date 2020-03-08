@@ -5,19 +5,12 @@
 ## Adding an Enemy 
 ### Getting Started @unplugged
 
-This tutorial series we start with a template of a simple platformer game that you will start with and add to.
-In this particular tutorial we will add a static enemy. 
+In this tutorial we will **add a static enemy** to our platformer template.   
 
-If you want to understand more about how the starting code works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
-  to create the game step by step.
+If you want to understand more about how the starting code of the template works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
+ to create the game step by step.
 
-If you want to add more features later you can do so with tutorials like the following:
-
-* Adding a Moving Enemy
-* Create more Levels
-* Add instructions and between level comments
-* Jump on Enemies to Zap them
-
+If you want to add other features later you can find other game element to add on the home page of this Platformer Making Course.
 
 ```template
 namespace SpriteKind {
