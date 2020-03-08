@@ -309,6 +309,9 @@ for (let value of tiles.getTilesByType(myTiles.tile1)) {
 
 ```
 
+### We add enemies like we add food. @fullscreen
+We add ememies like we add food to the game. Following this tutorial will add static enemies to your game. 
+Click on the tilemap image. Create a totally Red tile in My Tiles. Add one or two red blocks to your first level.  
 
 ### We add enemies like we add food. @fullscreen
 For first line here reads ``||loops:for element value of array of all...||``
@@ -317,3 +320,127 @@ This means it will create one item of Food for every yellow block.
 Duplicate this code block. Drop the copied loop back into the function after the original one. 
 
 ![Duplicate loop ](https://raw.githubusercontent.com/mickfuzz/makecode-platformer-add-an-enemy/master/images/duplicate_loop_ae_1.png)
+
+### We add enemies like we add food. @fullscreen
+
+Now change the values of content of this ``||loops:for loop||``. Change the yellow square to a red one. 
+Change the name of ``||variables:strawberry||`` for the two blocks for it to mentioned. I'll choose ``||variables:snake||`` and change the image too.
+Check your code with the example below. 
+
+### Create a Collision Listener @fullscreen
+
+We now code what happens when our player overlaps with the enemy ``||variables:snake||``. 
+Drag in an on player overlap with block from Sprites. Set the second value to be Enemy. 
+Inside the block drag in from Game block of ``||game:game over||`` and keep it set to **Lose**. 
+
+```block
+namespace myTiles {
+    //% blockIdentity=images._tile
+    export const tile0 = img`
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+    `
+    //% blockIdentity=images._tile
+    export const tile1 = img`
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+    `
+    //% blockIdentity=images._tile
+    export const tile2 = img`
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+    `
+    //% blockIdentity=images._tile
+    export const tile3 = img`
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    `
+}
+let snake: Sprite = null
+  for (let value of tiles.getTilesByType(myTiles.tile3)) {
+        snake = sprites.create(img`
+            . . . . c c c c c c . . . . . .
+            . . . c 6 7 7 7 7 6 c . . . . .
+            . . c 7 7 7 7 7 7 7 7 c . . . .
+            . c 6 7 7 7 7 7 7 7 7 6 c . . .
+            . c 7 c 6 6 6 6 c 7 7 7 c . . .
+            . f 7 6 f 6 6 f 6 7 7 7 f . . .
+            . f 7 7 7 7 7 7 7 7 7 7 f . . .
+            . . f 7 7 7 7 6 c 7 7 6 f c . .
+            . . . f c c c c 7 7 6 f 7 7 c .
+            . . c 7 2 7 7 7 6 c f 7 7 7 7 c
+            . c 7 7 2 7 7 c f c 6 7 7 6 c c
+            c 1 1 1 1 7 6 f c c 6 6 6 c . .
+            f 1 1 1 1 1 6 6 c 6 6 6 6 f . .
+            f 6 1 1 1 1 1 6 6 6 6 6 c f . .
+            . f 6 1 1 1 1 1 1 6 6 6 f . . .
+            . . c c c c c c c c c f . . . .
+        `, SpriteKind.Enemy)
+        tiles.placeOnTile(snake, value)
+        tiles.setTileAt(value, myTiles.tile0)
+    }
+  
+```
+
+```blocks
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    game.over(false)
+})
+
+```
