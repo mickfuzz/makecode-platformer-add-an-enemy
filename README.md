@@ -218,12 +218,14 @@ createLevels()
 ## Understanding the existing patterns 
 
 ### We add enemies like we add food. @fullscreen
+We add ememies like we add food to the game. Following this tutorial will add static enemies to your game. 
+Click on the tilemap image for your first level. Create a totally Red tile in *8My Tiles**. 
+Add one or two red blocks to your first level.  
 
-We add enemies to the game the same way we add the strawberry food. 
-**We use a loop** (to save time) that turns all the yellow squares in a tile map into a sprite of kind Food. 
+### We add enemies like we add food. @fullscreen
+We use a ``||loops:for||`` loop (to save time) that turns all the yellow squares in a tile map into a sprite of kind Food. 
 Find the following loop in the code. 
 ```block 
-
 namespace myTiles {
     //% blockIdentity=images._tile
     export const tile0 = img`
@@ -310,10 +312,6 @@ for (let value of tiles.getTilesByType(myTiles.tile1)) {
 ```
 
 ### We add enemies like we add food. @fullscreen
-We add ememies like we add food to the game. Following this tutorial will add static enemies to your game. 
-Click on the tilemap image. Create a totally Red tile in My Tiles. Add one or two red blocks to your first level.  
-
-### We add enemies like we add food. @fullscreen
 For first line here reads ``||loops:for element value of array of all...||``
 it contains a value and a list. The loop keeps running until it runs out of a values in the list. 
 This means it will create one item of Food for every yellow block. 
@@ -326,12 +324,6 @@ Duplicate this code block. Drop the copied loop back into the function after the
 Now change the values of content of this ``||loops:for loop||``. Change the yellow square to a red one. 
 Change the name of ``||variables:strawberry||`` for the two blocks for it to mentioned. I'll choose ``||variables:snake||`` and change the image too.
 Check your code with the example below. 
-
-### Create a Collision Listener @fullscreen
-
-We now code what happens when our player overlaps with the enemy ``||variables:snake||``. 
-Drag in an on player overlap with block from Sprites. Set the second value to be Enemy. 
-Inside the block drag in from Game block of ``||game:game over||`` and keep it set to **Lose**. 
 
 ```block
 namespace myTiles {
@@ -438,9 +430,24 @@ let snake: Sprite = null
   
 ```
 
+### Create a Collision Listener @fullscreen
+
+We now code what happens when our player overlaps with the enemy ``||variables:snake||``. 
+Drag in an on player overlap with block from Sprites. Set the second value to be Enemy. 
+Inside the block drag in from Game block of ``||game:game over||`` and keep it set to **Lose**. 
+
 ```blocks
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     game.over(false)
 })
 
 ```
+## Test your game and Next Steps 
+### Test your game and Next Steps @unplugged
+This tutorial is now complete. You can test your game to check that each time you add in a red block in your level tilemaps an enemy appears 
+and that when you touch the enemy the game ends with a Game Over message. 
+
+You may want to learn how to do the following
+
+* change the game so the player has lives, and loses a life instead of the game being over
+* Add moving enemies. 
