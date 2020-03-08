@@ -219,10 +219,9 @@ createLevels()
 
 ### We add enemies like we add food. @fullscreen
 
-We are going to add enemies to the game in the same way we add the strawberry food. 
-So we add food by using a loop that turns all the yellow squares in a tile map into a sprite of kind Food. 
-We use a loop to save time and numbers of block. Find the following loop blocks in the starting code. 
-
+We add enemies to the game the same way we add the strawberry food. 
+**We use a loop** (to save time) that turns all the yellow squares in a tile map into a sprite of kind Food. 
+Find the following loop in the code. 
 ```block 
 
 namespace myTiles {
@@ -308,35 +307,13 @@ for (let value of tiles.getTilesByType(myTiles.tile1)) {
     tiles.setTileAt(value, myTiles.tile0)
 }
 
-
 ```
 
 
 ### We add enemies like we add food. @fullscreen
+For first line here reads ``||loops:for element value of array of all...||``
+it contains a value and a list. The loop keeps running until it runs out of a values in the list. 
+This means it will create one item of Food for every yellow block. 
+Duplicate this code block. Drop the copied loop back into the function after the original one. 
 
-We are going to add enemies to the game in the same way we add the strawberry food. 
-So we add food by using a loop that turns all the yellow squares in a tile map into a sprite of kind Food. 
-We use a loop to save time and numbers of block. Find the following loop blocks in the starting code. 
-
-
-```blocks
-let mySprite = sprites.create(img`
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . b 5 5 b . . .
-    . . . . . . b b b b b b . . . .
-    . . . . . b b 5 5 5 5 5 b . . .
-    . b b b b b 5 5 5 5 5 5 5 b . .
-    . b d 5 b 5 5 5 5 5 5 5 5 b . .
-    . . b 5 5 b 5 d 1 f 5 d 4 f . .
-    . . b d 5 5 b 1 f f 5 4 4 c . .
-    b b d b 5 5 5 d f b 4 4 4 4 b .
-    b d d c d 5 5 b 5 4 4 4 4 4 4 b
-    c d d d c c b 5 5 5 5 5 5 5 b .
-    c b d d d d d 5 5 5 5 5 5 5 b .
-    . c d d d d d d 5 5 5 5 5 d b .
-    . . c b d d d d d 5 5 5 b b . .
-    . . . c c c c c c c c b b . . .
-`, SpriteKind.Player)
-controller.moveSprite(mySprite, 100, 0)
-```
+![Duplicate loop ](https://raw.githubusercontent.com/mickfuzz/makecode-platformer-add-an-enemy/master/images/duplicate_loop_ae_1.png)
