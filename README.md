@@ -10,15 +10,13 @@ In this particular tutorial we will add a static enemy.
 
 If you want to understand more about how the starting code works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
   to create the game step by step.
-  
+
 If you want to add more features later you can do so with tutorials like the following:
 
 * Adding a Moving Enemy
 * Create more Levels
 * Add instructions and between level comments
 * Jump on Enemies to Zap them
-
-
 
 
 ```template
@@ -217,4 +215,128 @@ createLevels()
 
 ```
 
-## Adding a End Door 
+## Understanding the existing patterns 
+
+### We add enemies like we add food. @fullscreen
+
+We are going to add enemies to the game in the same way we add the strawberry food. 
+So we add food by using a loop that turns all the yellow squares in a tile map into a sprite of kind Food. 
+We use a loop to save time and numbers of block. Find the following loop blocks in the starting code. 
+
+```block 
+
+namespace myTiles {
+    //% blockIdentity=images._tile
+    export const tile0 = img`
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+    `
+    //% blockIdentity=images._tile
+    export const tile1 = img`
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+    `
+    //% blockIdentity=images._tile
+    export const tile2 = img`
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+    `
+}
+let strawberry: Sprite = null
+for (let value of tiles.getTilesByType(myTiles.tile1)) {
+    strawberry = sprites.create(img`
+        . . . . . . . 6 . . . . . . . .
+        . . . . . . 8 6 6 . . . 6 8 . .
+        . . . e e e 8 8 6 6 . 6 7 8 . .
+        . . e 2 2 2 2 e 8 6 6 7 6 . . .
+        . e 2 2 4 4 2 7 7 7 7 7 8 6 . .
+        . e 2 4 4 2 6 7 7 7 6 7 6 8 8 .
+        e 2 4 5 2 2 6 7 7 6 2 7 7 6 . .
+        e 2 4 4 2 2 6 7 6 2 2 6 7 7 6 .
+        e 2 4 2 2 2 6 6 2 2 2 e 7 7 6 .
+        e 2 4 2 2 4 2 2 2 4 2 2 e 7 6 .
+        e 2 4 2 2 2 2 2 2 2 2 2 e c 6 .
+        e 2 2 2 2 2 2 2 4 e 2 e e c . .
+        e e 2 e 2 2 4 2 2 e e e c . . .
+        e e e e 2 e 2 2 e e e c . . . .
+        e e e 2 e e c e c c c . . . . .
+        . c c c c c c c . . . . . . . .
+    `, SpriteKind.Food)
+    tiles.placeOnTile(strawberry, value)
+    tiles.setTileAt(value, myTiles.tile0)
+}
+
+
+```
+
+
+### We add enemies like we add food. @fullscreen
+
+We are going to add enemies to the game in the same way we add the strawberry food. 
+So we add food by using a loop that turns all the yellow squares in a tile map into a sprite of kind Food. 
+We use a loop to save time and numbers of block. Find the following loop blocks in the starting code. 
+
+
+```blocks
+let mySprite = sprites.create(img`
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . b 5 5 b . . .
+    . . . . . . b b b b b b . . . .
+    . . . . . b b 5 5 5 5 5 b . . .
+    . b b b b b 5 5 5 5 5 5 5 b . .
+    . b d 5 b 5 5 5 5 5 5 5 5 b . .
+    . . b 5 5 b 5 d 1 f 5 d 4 f . .
+    . . b d 5 5 b 1 f f 5 4 4 c . .
+    b b d b 5 5 5 d f b 4 4 4 4 b .
+    b d d c d 5 5 b 5 4 4 4 4 4 4 b
+    c d d d c c b 5 5 5 5 5 5 5 b .
+    c b d d d d d 5 5 5 5 5 5 5 b .
+    . c d d d d d d 5 5 5 5 5 d b .
+    . . c b d d d d d 5 5 5 b b . .
+    . . . c c c c c c c c b b . . .
+`, SpriteKind.Player)
+controller.moveSprite(mySprite, 100, 0)
+```
