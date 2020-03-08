@@ -449,5 +449,5 @@ and that when you touch the enemy the game ends with a Game Over message.
 
 You may want to learn how to do the following
 
-* change the game so the player has lives, and loses a life instead of the game being over
+* Add player lives
 * Add moving enemies. 
