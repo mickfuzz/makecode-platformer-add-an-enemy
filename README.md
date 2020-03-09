@@ -244,7 +244,7 @@ createLevels()
 We add enemies to the game the same way we add the strawberry food. 
 **We use a loop** (to save time) that turns all the yellow squares in a tile map into a sprite of kind Food. 
 Find the following loop in the code. 
-```block 
+```blocks 
 
 namespace myTiles {
     //% blockIdentity=images._tile
