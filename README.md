@@ -218,7 +218,7 @@ Add one or two red blocks to your first level.
 ### We add enemies like we add food. @fullscreen
 We use a ``||loops:for||`` loop (to save time) that turns all the yellow squares in a tile map into a sprite of kind Food. 
 Find the following loop in the code. 
-```block 
+```blocks 
 namespace myTiles {
     //% blockIdentity=images._tile
     export const tile0 = img`
