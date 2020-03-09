@@ -1,18 +1,5 @@
 ### @activities true
 
-# Making a Platformer Game - Add PLayer Lives
-
-## Adding Player Lives 
-### Getting Started @unplugged
-
-In this tutorial we will **add player lives** to our platformer.
-
-This tutorial depends on the code of one to add an enemy located here. 
-
-If you want to understand more about how the starting code of the template works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
- to create the game step by step.
-
-This tutorial is one of many allowing you add different Game Element on the home page of this Platformer Making Course.
 
 ```template
 
@@ -77,41 +64,22 @@ namespace myTiles {
         4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
         4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
     `
-    //% blockIdentity=images._tile
-    export const tile3 = img`
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    `
 }
 function chooseLevel () {
     if (level == 0) {
         tiles.setTilemap(tiles.createTilemap(
-            hex`1400080000000000000000000000000000000000000000000400030000000000000000000000000000000000010101030000000000000000000000000000000000000101000000000000000000000000000000000000000000000500000000000000000000000000000000000000010101010000000000000000000000000000000000000000000300000000030000000101010101010101010101010101010101010101`,
+            hex`1400080000000000000000000000000000000000000000000400030000000000000000000000000000000000010101030000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101010100000000000000000000000000000001010000000300000000030000000101010101010101010101010101010101010101`,
             img`
                 . . . . . . . . . . . . . . . . . . . .
                 . . . . . . . . . . . . . . . . . . . .
                 2 2 2 . . . . . . . . . . . . . . . . .
                 . . 2 2 . . . . . . . . . . . . . . . .
                 . . . . . . . . . . . . . . . . . . . .
-                . . . . . . 2 2 2 2 . . . . . . . . . .
-                . . . . . . . . . . . . . . . . . . . .
+                . . . . . . . 2 2 2 2 . . . . . . . . .
+                . . . . . . 2 2 . . . . . . . . . . . .
                 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
             `,
-            [myTiles.tile0,sprites.castle.tileGrass2,sprites.builtin.forestTiles0,myTiles.tile1,myTiles.tile2,myTiles.tile3],
+            [myTiles.tile0,sprites.castle.tileGrass2,sprites.builtin.forestTiles0,myTiles.tile1,myTiles.tile2],
             TileScale.Sixteen
         ))
     }
@@ -128,7 +96,7 @@ function chooseLevel () {
                 . . . . . . . . . . . . . . . . . . . .
                 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
             `,
-            [myTiles.tile0,sprites.castle.tileGrass2,sprites.builtin.forestTiles0,myTiles.tile1,myTiles.tile2,myTiles.tile3],
+            [myTiles.tile0,sprites.castle.tileGrass2,sprites.builtin.forestTiles0,myTiles.tile1,myTiles.tile2],
             TileScale.Sixteen
         ))
     }
@@ -145,17 +113,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, function (sprite, otherSpr
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     otherSprite.destroy()
-    info.changeScoreBy(1)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.vy = -150
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    game.over(false)
+    if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
+        mySprite.vy = -175
+    }
 })
 function createLevels () {
     chooseLevel()
-    info.startCountdown(20)
     for (let value of tiles.getTilesByType(myTiles.tile1)) {
         strawberry = sprites.create(img`
             . . . . . . . 6 . . . . . . . .
@@ -176,28 +141,6 @@ function createLevels () {
             . c c c c c c c . . . . . . . .
         `, SpriteKind.Food)
         tiles.placeOnTile(strawberry, value)
-        tiles.setTileAt(value, myTiles.tile0)
-    }
-    for (let value of tiles.getTilesByType(myTiles.tile3)) {
-        snake = sprites.create(img`
-            . . . . c c c c c c . . . . . .
-            . . . c 6 7 7 7 7 6 c . . . . .
-            . . c 7 7 7 7 7 7 7 7 c . . . .
-            . c 6 7 7 7 7 7 7 7 7 6 c . . .
-            . c 7 c 6 6 6 6 c 7 7 7 c . . .
-            . f 7 6 f 6 6 f 6 7 7 7 f . . .
-            . f 7 7 7 7 7 7 7 7 7 7 f . . .
-            . . f 7 7 7 7 6 c 7 7 6 f c . .
-            . . . f c c c c 7 7 6 f 7 7 c .
-            . . c 7 2 7 7 7 6 c f 7 7 7 7 c
-            . c 7 7 2 7 7 c f c 6 7 7 6 c c
-            c 1 1 1 1 7 6 f c c 6 6 6 c . .
-            f 1 1 1 1 1 6 6 c 6 6 6 6 f . .
-            f 6 1 1 1 1 1 6 6 6 6 6 c f . .
-            . f 6 1 1 1 1 1 1 6 6 6 f . . .
-            . . c c c c c c c c c f . . . .
-        `, SpriteKind.Enemy)
-        tiles.placeOnTile(snake, value)
         tiles.setTileAt(value, myTiles.tile0)
     }
     for (let value2 of tiles.getTilesByType(myTiles.tile2)) {
@@ -224,7 +167,6 @@ function createLevels () {
     }
 }
 let chest: Sprite = null
-let snake: Sprite = null
 let strawberry: Sprite = null
 let level = 0
 let mySprite: Sprite = null
@@ -247,7 +189,7 @@ mySprite = sprites.create(img`
     . . . c c c c c c c c b b . . .
 `, SpriteKind.Player)
 controller.moveSprite(mySprite, 100, 0)
-mySprite.ay = 200
+mySprite.ay = 350
 mySprite.setPosition(10, 100)
 scene.cameraFollowSprite(mySprite)
 scene.setBackgroundColor(9)
@@ -255,6 +197,20 @@ level = 0
 createLevels()
 
 ```
+
+# Remixing a Platformer Game - Add Player Lives
+
+## Adding Player Lives 
+### Getting Started @unplugged
+
+In this tutorial we will **add player lives** to our platformer.
+
+This tutorial depends on the code of one to add an enemy located here. 
+
+If you want to understand more about how the starting code of the template works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
+ to create the game step by step.
+
+This tutorial is one of many allowing you add different Game Element on the home page of this Platformer Making Course.
 
 ### Adding a starting amount of lives @fullscreen
 We can add in the starting number of lives.
