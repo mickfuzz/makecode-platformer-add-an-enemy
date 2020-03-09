@@ -5,41 +5,12 @@
 ## Adding an Enemy 
 ### Getting Started @unplugged
 
-This tutorial series we start with a template of a simple platformer game that you will start with and add to.
-In this particular tutorial we will add a static enemy. 
+In this tutorial we will **add a static enemy** to our platformer template.   
 
-If you want to understand more about how the starting code works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
-  to create the game step by step.
+If you want to understand more about how the starting code of the template works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
+ to create the game step by step.
 
-If you want to add more features later you can do so with tutorials like the following:
-
-* Adding a Moving Enemy
-* Create more Levels
-* Add instructions and between level comments
-* Jump on Enemies to Zap them
-
-
-```template
-### @activities true
-
-# Making a Platformer Game - Adding an Enemy
-
-## Adding an Enemy 
-### Getting Started @unplugged
-
-This tutorial series we start with a template of a simple platformer game that you will start with and add to.
-In this particular tutorial we will add a static enemy. 
-
-If you want to understand more about how the starting code works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
-  to create the game step by step.
-
-If you want to add more features later you can do so with tutorials like the following:
-
-* Adding a Moving Enemy
-* Create more Levels
-* Add instructions and between level comments
-* Jump on Enemies to Zap them
-
+This tutorial is one of many allowing you add different Game Element on the home page of this Platformer Making Course.
 
 ```template
 namespace SpriteKind {
@@ -107,15 +78,15 @@ namespace myTiles {
 function chooseLevel () {
     if (level == 0) {
         tiles.setTilemap(tiles.createTilemap(
-            hex`1400080000000000000000000000000000000000000000000400030000000000000000000000000000000000010101030000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101010100000000000000000000000000000001010000000300000000030000000101010101010101010101010101010101010101`,
+            hex`1400080000000000000000000000000000000000000000000400030000000000000000000000000000000000010101030000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000010101010000000000000000000000000000000000000000000300000000030000000101010101010101010101010101010101010101`,
             img`
                 . . . . . . . . . . . . . . . . . . . .
                 . . . . . . . . . . . . . . . . . . . .
                 2 2 2 . . . . . . . . . . . . . . . . .
                 . . 2 2 . . . . . . . . . . . . . . . .
                 . . . . . . . . . . . . . . . . . . . .
-                . . . . . . . 2 2 2 2 . . . . . . . . .
-                . . . . . . 2 2 . . . . . . . . . . . .
+                . . . . . . 2 2 2 2 . . . . . . . . . .
+                . . . . . . . . . . . . . . . . . . . .
                 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
             `,
             [myTiles.tile0,sprites.castle.tileGrass2,sprites.builtin.forestTiles0,myTiles.tile1,myTiles.tile2],
@@ -152,14 +123,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, function (sprite, otherSpr
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     otherSprite.destroy()
+    info.changeScoreBy(1)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
-        mySprite.vy = -175
-    }
+    mySprite.vy = -150
 })
 function createLevels () {
     chooseLevel()
+    info.startCountdown(20)
     for (let value of tiles.getTilesByType(myTiles.tile1)) {
         strawberry = sprites.create(img`
             . . . . . . . 6 . . . . . . . .
@@ -228,7 +199,7 @@ mySprite = sprites.create(img`
     . . . c c c c c c c c b b . . .
 `, SpriteKind.Player)
 controller.moveSprite(mySprite, 100, 0)
-mySprite.ay = 350
+mySprite.ay = 200
 mySprite.setPosition(10, 100)
 scene.cameraFollowSprite(mySprite)
 scene.setBackgroundColor(9)
@@ -240,117 +211,14 @@ createLevels()
 ## Understanding the existing patterns 
 
 ### We add enemies like we add food. @fullscreen
-
-We add enemies to the game the same way we add the strawberry food. 
-**We use a loop** (to save time) that turns all the yellow squares in a tile map into a sprite of kind Food. 
-Find the following loop in the code. 
-```blocks 
-
-namespace myTiles {
-    //% blockIdentity=images._tile
-    export const tile0 = img`
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-        . . . . . . . . . . . . . . . .
-    `
-    //% blockIdentity=images._tile
-    export const tile1 = img`
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
-    `
-    //% blockIdentity=images._tile
-    export const tile2 = img`
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-    `
-}
-let strawberry: Sprite = null
-for (let value of tiles.getTilesByType(myTiles.tile1)) {
-    strawberry = sprites.create(img`
-        . . . . . . . 6 . . . . . . . .
-        . . . . . . 8 6 6 . . . 6 8 . .
-        . . . e e e 8 8 6 6 . 6 7 8 . .
-        . . e 2 2 2 2 e 8 6 6 7 6 . . .
-        . e 2 2 4 4 2 7 7 7 7 7 8 6 . .
-        . e 2 4 4 2 6 7 7 7 6 7 6 8 8 .
-        e 2 4 5 2 2 6 7 7 6 2 7 7 6 . .
-        e 2 4 4 2 2 6 7 6 2 2 6 7 7 6 .
-        e 2 4 2 2 2 6 6 2 2 2 e 7 7 6 .
-        e 2 4 2 2 4 2 2 2 4 2 2 e 7 6 .
-        e 2 4 2 2 2 2 2 2 2 2 2 e c 6 .
-        e 2 2 2 2 2 2 2 4 e 2 e e c . .
-        e e 2 e 2 2 4 2 2 e e e c . . .
-        e e e e 2 e 2 2 e e e c . . . .
-        e e e 2 e e c e c c c . . . . .
-        . c c c c c c c . . . . . . . .
-    `, SpriteKind.Food)
-    tiles.placeOnTile(strawberry, value)
-    tiles.setTileAt(value, myTiles.tile0)
-}
-
-```
-
+We add ememies like we add food to the game. Following this tutorial will add static enemies to your game. 
+Click on the tilemap image for your first level. Create a totally Red tile in *8My Tiles**. 
+Add one or two red blocks to your first level.  
 
 ### We add enemies like we add food. @fullscreen
-For first line here reads ``||loops:for element value of array of all...||``
-it contains a value and a list. The loop keeps running until it runs out of a values in the list. 
-This means it will create one item of Food for every yellow block. 
-Duplicate this code block. Drop the copied loop back into the function after the original one. 
-
-![Duplicate loop ](https://raw.githubusercontent.com/mickfuzz/makecode-platformer-add-an-enemy/master/images/duplicate_loop_ae_1.png)
-
-```
-
-## Understanding the existing patterns 
-
-### We add enemies like we add food. @fullscreen
-
-We add enemies to the game the same way we add the strawberry food. 
-**We use a loop** (to save time) that turns all the yellow squares in a tile map into a sprite of kind Food. 
+We use a ``||loops:for||`` loop (to save time) that turns all the yellow squares in a tile map into a sprite of kind Food. 
 Find the following loop in the code. 
 ```block 
-
 namespace myTiles {
     //% blockIdentity=images._tile
     export const tile0 = img`
@@ -436,7 +304,6 @@ for (let value of tiles.getTilesByType(myTiles.tile1)) {
 
 ```
 
-
 ### We add enemies like we add food. @fullscreen
 For first line here reads ``||loops:for element value of array of all...||``
 it contains a value and a list. The loop keeps running until it runs out of a values in the list. 
@@ -444,3 +311,140 @@ This means it will create one item of Food for every yellow block.
 Duplicate this code block. Drop the copied loop back into the function after the original one. 
 
 ![Duplicate loop ](https://raw.githubusercontent.com/mickfuzz/makecode-platformer-add-an-enemy/master/images/duplicate_loop_ae_1.png)
+
+### We add enemies like we add food. @fullscreen
+
+Now change the values of content of this ``||loops:for loop||``. Change the yellow square to a red one. 
+Change the name of ``||variables:strawberry||`` for the two blocks for it to mentioned. I'll choose ``||variables:snake||`` and change the image too.
+Check your code with the example below. 
+
+```block
+namespace myTiles {
+    //% blockIdentity=images._tile
+    export const tile0 = img`
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+    `
+    //% blockIdentity=images._tile
+    export const tile1 = img`
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+    `
+    //% blockIdentity=images._tile
+    export const tile2 = img`
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+        4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+    `
+    //% blockIdentity=images._tile
+    export const tile3 = img`
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    `
+}
+let snake: Sprite = null
+  for (let value of tiles.getTilesByType(myTiles.tile3)) {
+        snake = sprites.create(img`
+            . . . . c c c c c c . . . . . .
+            . . . c 6 7 7 7 7 6 c . . . . .
+            . . c 7 7 7 7 7 7 7 7 c . . . .
+            . c 6 7 7 7 7 7 7 7 7 6 c . . .
+            . c 7 c 6 6 6 6 c 7 7 7 c . . .
+            . f 7 6 f 6 6 f 6 7 7 7 f . . .
+            . f 7 7 7 7 7 7 7 7 7 7 f . . .
+            . . f 7 7 7 7 6 c 7 7 6 f c . .
+            . . . f c c c c 7 7 6 f 7 7 c .
+            . . c 7 2 7 7 7 6 c f 7 7 7 7 c
+            . c 7 7 2 7 7 c f c 6 7 7 6 c c
+            c 1 1 1 1 7 6 f c c 6 6 6 c . .
+            f 1 1 1 1 1 6 6 c 6 6 6 6 f . .
+            f 6 1 1 1 1 1 6 6 6 6 6 c f . .
+            . f 6 1 1 1 1 1 1 6 6 6 f . . .
+            . . c c c c c c c c c f . . . .
+        `, SpriteKind.Enemy)
+        tiles.placeOnTile(snake, value)
+        tiles.setTileAt(value, myTiles.tile0)
+    }
+  
+```
+
+### Create a Collision Listener @fullscreen
+
+We now code what happens when our player overlaps with the enemy ``||variables:snake||``. 
+Drag in an on player overlap with block from Sprites. Set the second value to be Enemy. 
+Inside the block drag in from Game block of ``||game:game over||`` and keep it set to **Lose**. 
+
+```blocks
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    game.over(false)
+})
+
+```
+## Test your game and Next Steps 
+### Test your game and Next Steps @unplugged
+**This tutorial is now complete.** 
+
+You can test your game to check that each time you add in a red block in your level tilemaps an enemy appears 
+and that when you touch the enemy the game ends with a Game Over message. 
+
+For example: you may want to learn how to do the following
+
+* Add player lives
+* Add moving enemies. 
+
+This tutorial is one of many allowing you add different Game Element on the home page of this Platformer Making Course.
