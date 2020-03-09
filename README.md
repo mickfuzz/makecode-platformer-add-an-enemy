@@ -1,18 +1,7 @@
 ### @activities true
 
-# Making a Platformer Game - Adding an Enemy
-
-## Adding an Enemy 
-### Getting Started @unplugged
-
-In this tutorial we will **add a static enemy** to our platformer template.   
-
-If you want to understand more about how the starting code of the template works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
- to create the game step by step.
-
-This tutorial is one of many allowing you add different Game Element on the home page of this Platformer Making Course.
-
 ```template
+
 namespace SpriteKind {
     export const Door = SpriteKind.create()
 }
@@ -78,15 +67,15 @@ namespace myTiles {
 function chooseLevel () {
     if (level == 0) {
         tiles.setTilemap(tiles.createTilemap(
-            hex`1400080000000000000000000000000000000000000000000400030000000000000000000000000000000000010101030000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000010101010000000000000000000000000000000000000000000300000000030000000101010101010101010101010101010101010101`,
+            hex`1400080000000000000000000000000000000000000000000400030000000000000000000000000000000000010101030000000000000000000000000000000000000101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101010100000000000000000000000000000001010000000300000000030000000101010101010101010101010101010101010101`,
             img`
                 . . . . . . . . . . . . . . . . . . . .
                 . . . . . . . . . . . . . . . . . . . .
                 2 2 2 . . . . . . . . . . . . . . . . .
                 . . 2 2 . . . . . . . . . . . . . . . .
                 . . . . . . . . . . . . . . . . . . . .
-                . . . . . . 2 2 2 2 . . . . . . . . . .
-                . . . . . . . . . . . . . . . . . . . .
+                . . . . . . . 2 2 2 2 . . . . . . . . .
+                . . . . . . 2 2 . . . . . . . . . . . .
                 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
             `,
             [myTiles.tile0,sprites.castle.tileGrass2,sprites.builtin.forestTiles0,myTiles.tile1,myTiles.tile2],
@@ -123,14 +112,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Door, function (sprite, otherSpr
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     otherSprite.destroy()
-    info.changeScoreBy(1)
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.vy = -150
+    if (mySprite.isHittingTile(CollisionDirection.Bottom)) {
+        mySprite.vy = -175
+    }
 })
 function createLevels () {
     chooseLevel()
-    info.startCountdown(20)
     for (let value of tiles.getTilesByType(myTiles.tile1)) {
         strawberry = sprites.create(img`
             . . . . . . . 6 . . . . . . . .
@@ -199,7 +188,7 @@ mySprite = sprites.create(img`
     . . . c c c c c c c c b b . . .
 `, SpriteKind.Player)
 controller.moveSprite(mySprite, 100, 0)
-mySprite.ay = 200
+mySprite.ay = 350
 mySprite.setPosition(10, 100)
 scene.cameraFollowSprite(mySprite)
 scene.setBackgroundColor(9)
@@ -208,11 +197,25 @@ createLevels()
 
 ```
 
+# Remixing a Platformer Game - Adding an Enemy
+
+## Adding an Enemy 
+### Getting Started @unplugged
+
+In this tutorial we will **add a static enemy** to our platformer template.   
+
+If you want to understand more about how the starting code of the template works then you can follow [this tutorial](https://arcade.makecode.com/beta#tutorial:https://github.com/mickfuzz/makecode-platformer-101)
+ to create the game step by step.
+
+This tutorial is one of many allowing you add different Game Element on the home page of this Platformer Making Course.
+
+
+
 ## Understanding the existing patterns 
 
 ### We add enemies like we add food. @fullscreen
 We add ememies like we add food to the game. Following this tutorial will add static enemies to your game. 
-Click on the tilemap image for your first level. Create a totally Red tile in *8My Tiles**. 
+Click on the tilemap image for your first level. Create a totally Red tile in **My Tiles**. 
 Add one or two red blocks to your first level.  
 
 ### We add enemies like we add food. @fullscreen
@@ -318,7 +321,7 @@ Now change the values of content of this ``||loops:for loop||``. Change the yell
 Change the name of ``||variables:strawberry||`` for the two blocks for it to mentioned. I'll choose ``||variables:snake||`` and change the image too.
 Check your code with the example below. 
 
-```block
+```blocks
 namespace myTiles {
     //% blockIdentity=images._tile
     export const tile0 = img`
